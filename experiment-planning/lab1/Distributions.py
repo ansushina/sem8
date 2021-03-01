@@ -1,13 +1,22 @@
   
-from numpy.random import gamma, normal
+from numpy.random import rayleigh
+from scipy.stats import weibull_min
 import random
 import numpy as np
 import math
 
-class UniformDistribution:
-    def __init__(self, a: float, b: float):
-        self.a = a
-        self.b = b
+class RayleighDistribution:
+    def __init__(self, sigma: float):
+        self.sigma = sigma
 
     def generate(self):
-        return self.a + (self.b - self.a) * random.random()
+        return rayleigh(self.sigma)
+
+class WeibullDistribution:
+    def __init__(self, k: float,lambd: float):
+        self.k = k
+        self.lam = lambd
+
+    def generate(self):
+        return weibull_min.rvs(self.k, loc=0, scale=self.lam)
+    

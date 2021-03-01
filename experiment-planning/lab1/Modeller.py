@@ -5,42 +5,38 @@ from Processor import Processor
 
 
 class Modeller:
-    def __init__(self, generator, operators, computers):
-        self._generator = generator
+    def __init__(self, generators, operators):
+        self._generators = generators
         self._operators = operators
-        self._computers = computers
 
-    def event_mode(self):
+    def event_mode(self, num_requests):
         refusals = 0
         processed = 0
-        generated_requests = self._generator.num_requests
-        generator = self._generator
+        created = 0
+        wait_times =  []
 
-        generator.next = generator.next_time()
+        for g in self._generators: 
+            g.next = g.next_time()
+
         self._operators[0].next = self._operators[0].next_time()
 
-        blocks = [
-            generator
-        ] + self._computers + self._operators 
+        blocks = self._generators + self._operators 
 
-        num_requests = generator.num_requests
-        count = 0;
-        while count < num_requests:
-            my_str = 'iter '
-            for oper in self._operators: 
-                my_str += str(oper.current_queue_size) + ' '
-            my_str += "|||||" 
-            for oper in self._computers: 
-                my_str += str(oper.current_queue_size) + ' '
-            my_str += "|||||" 
-            for oper in self._computers: 
-                my_str += str(oper.processed_requests) + ' '
-            my_str += "|||||" 
-            for oper in self._operators: 
-                my_str += str(oper.processed_requests) + ' '
+        count = 0
+        while processed <= num_requests:
+            # my_str = 'iter '
+            # for oper in self._operators: 
+            #     my_str += str(len(oper.queue)) + ' '
+            # my_str += "|||||" 
+            # for oper in self._generators: 
+            #     my_str += str(oper.num_requests) + ' '
+            # my_str += "|||||" 
+            # for oper in self._operators: 
+            #     my_str += str(oper.processed_requests) + ' '
+            # print(my_str)
+
             # находим наименьшее время
-            print(my_str)
-            current_time = generator.next
+            current_time = self._generators[0].next
             for block in blocks:
                 if 0 < block.next < current_time:
                     current_time = block.next
@@ -52,37 +48,31 @@ class Modeller:
                     if not isinstance(block, Processor):
                         # для генератора 
                         # проверяем, может ли оператор обработать
-                        next_generator = generator.generate_request()
+                        next_generator = block.generate_request(current_time)
                         if next_generator is not None:
                             next_generator.next = \
                                 current_time + next_generator.next_time()
-                            processed += 1
+                            created += 1
                         else:
                             refusals += 1
-                        generator.next = current_time + generator.next_time()
+                        block.next = current_time + block.next_time()
                     else:
-                        block.process_request()
-                        if block.current_queue_size == 0:
+                        wait_time = block.process_request(current_time)
+                        wait_times.append(wait_time)
+                        processed += 1
+                        if len(block.queue) == 0:
                             block.next = 0
                         else:
                             block.next = current_time + block.next_time()
-            count = 0 
-            for oper in self._computers: 
-                count += oper.processed_requests
 
-        max_queue = []
-        for oper in self._operators: 
-            max_queue.append(oper.max_size)
-        for oper in self._computers: 
-            max_queue.append(oper.max_size)
-        processed_arr = []
-        for oper in self._operators: 
-            processed_arr.append(oper.processed_requests)
-        for oper in self._computers: 
-            processed_arr.append(oper.processed_requests)
-        return {"max_queue": max_queue,
+        wait_time_middle = 0
+        for time in wait_times:
+            if (time != -1):
+                wait_time_middle += time
+        
+        wait_time_middle /= len(wait_times)
+
+        return {
                 'time': current_time,
-                "processed": count,
-                "proc_arr": processed_arr,
-                "pribilo": processed
+                "wait_time_middle": wait_time_middle
                 }

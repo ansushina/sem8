@@ -1,83 +1,90 @@
 from Modeller import Modeller
-from prettytable import PrettyTable
 from EventGenerator import Generator
-from Distributions import UniformDistribution
+from Distributions import  RayleighDistribution, WeibullDistribution
 from Processor import Processor
+import math
+from matplotlib import pyplot
+
+
+def view():
+    Xdata = list()
+    Ydata = list()
+    Ydata_t = list()
+
+    lambda_obr = 100
+    k = 2
+
+    for lambda_coming in range(1, lambda_obr+1, 5):
+            sigma = (1/lambda_coming) * (math.pi / 2) ** (-1/2)
+            lam = (1/lambda_obr) * math.log(2, math.e) ** (-1 / k)
+
+            generators = [
+                Generator(
+                    RayleighDistribution(sigma),
+                    20000,
+                ), 
+            ]
+
+            operators = [
+                    Processor(
+                        WeibullDistribution(k, lam)
+                    ),
+                ]
+            for generator in generators: 
+                generator.receivers = operators.copy()
+
+            model = Modeller(generators, operators)
+            result = model.event_mode(12000)
+            Xdata.append(lambda_coming/lambda_obr)
+            Ydata.append(result['wait_time_middle'])
+            # print(lambda_coming/lambda_obr) 
+            # print(result['wait_time_middle']) 
+            ro = lambda_coming/lambda_obr
+            if ro != 1:
+                Ydata_t.append(ro/(1 - ro)/lambda_coming)
+
+    pyplot.title('Среднее время ожидания')
+    pyplot.grid(True)
+    # pyplot.plot(Xdata, Ydata_t)
+    pyplot.plot(Xdata, Ydata)
+    pyplot.xlabel("Коэффикиент загрузки")
+    pyplot.ylabel("Среднее время пребывания в очереди")
+    pyplot.show()
+
+
 
 if __name__ == '__main__':
-    table = PrettyTable()
-    table.field_names = ['# итерации', 'прибыло', 'обработано', 'время работы']
-    table2 = PrettyTable()
+    clients_number = 10000 #Количество клиентов
+    proccessed = 1000
 
+    lambda_coming = float(input("Введите интенсивность прихода послетителей: "))
+    lambda_obr = float(input("Введите интенсивность обработки: "))
 
+    sigma = (1/lambda_coming) * (math.pi / 2) ** (-1/2)
 
-    clients_number = 300 #Количество клиентов
+    k = 2
+    lam = (1/lambda_obr) * math.log(2, math.e) ** (-1 / k)
 
-    operator_time = 3 #Время обслуживания кассира
-    operator_delta = 2 #Погрешность обслуживания кассира
-
-    computer_time = 1 #Время обслуживания терминала
-    computer_delta = 1 #Погрешность обслуживания терминала
-
-    clients_time = 1 #Время прихода клиента
-    clients_delta = 1 #Погрешность времени прихода клиента
-
-    generator = Generator(
-            UniformDistribution(0, 2),
+    generators = [
+        Generator(
+            RayleighDistribution(sigma),
             clients_number,
-        )
+        ), 
+    ]
 
     operators = [
             Processor(
-                UniformDistribution(operator_time - operator_delta, operator_delta + operator_time)
+                WeibullDistribution(k, lam)
             ),
-            Processor(
-                UniformDistribution(operator_time - operator_delta, operator_delta + operator_time)
-            ),
-            Processor(
-                UniformDistribution(operator_time - operator_delta, operator_delta + operator_time)
-            ),
-            Processor(
-                UniformDistribution(operator_time - operator_delta, operator_delta + operator_time)
-            ),
-            # Processor(
-            #     UniformDistribution(operator_time - operator_delta, operator_delta + operator_time)
-            # ),
-            # Processor(
-            #     UniformDistribution(operator_time - operator_delta, operator_delta + operator_time)
-            # ),
-            # Processor(
-            #     UniformDistribution(operator_time - operator_delta, operator_delta + operator_time)
-            # ),
         ]
+    for generator in generators: 
+        generator.receivers = operators.copy()
 
-    computers = [
-        Processor(UniformDistribution(computer_time - computer_delta, computer_delta + computer_time),),
-        Processor(UniformDistribution(computer_time - computer_delta, computer_delta + computer_time),),
-        Processor(UniformDistribution(computer_time - computer_delta, computer_delta + computer_time),),
-    ]
-
-    generator.receivers = operators.copy()
-    operators[0].receivers = computers
-    operators[1].receivers = computers
-    operators[2].receivers = computers
-    operators[3].receivers = computers
-    # operators[4].receivers = computers
-    # operators[5].receivers = computers
-    # operators[6].receivers = computers
-
-    model = Modeller(generator, operators, computers)
-    result = model.event_mode()
-    table.add_row([ 1, result['pribilo'],result['processed'], result['time']])
-
-    table2.add_column('Элементы', [('оператор'+ str(i)) for i in range(len(operators))] + [('терминал' + str(i)) for i in range(len(computers))])
-    table2.add_column('Максимальная очередь', result['max_queue'])
-    table2.add_column('Обработано', result['proc_arr'])
-    
-    print("Количество заявок: ", clients_number)
-    print(table)
-    print(table2)
-
-    
-
-
+    model = Modeller(generators, operators)
+    result = model.event_mode(proccessed)
+    # print(result)
+    print("Загрузка системы(расчетная): ", lambda_coming/lambda_obr, 
+    "\nВремя работы:", result['time'], 
+    "\nСреднее время ожидания: ", result['wait_time_middle'], 
+    "\nКоличество обработанных заявок", proccessed)
+    # view()
