@@ -14,7 +14,7 @@ def view():
     lambda_obr = 100
     k = 2
 
-    for lambda_coming in range(1, lambda_obr+1, 5):
+    for lambda_coming in range(1, lambda_obr-35, 5):
             sigma = (1/lambda_coming) * (math.pi / 2) ** (-1/2)
             lam = (1/lambda_obr) * math.log(2, math.e) ** (-1 / k)
 
