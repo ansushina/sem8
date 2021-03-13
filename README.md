@@ -8,13 +8,15 @@
 
 ## Цифровая обработка сигналов
   - [x] ЛР1 :heavy_check_mark: 
-  - [ ] ЛР2
-  - [ ] ЛР3
+  - [x] ЛР2 :heavy_check_mark:
+  - [x] ЛР3 :heavy_check_mark:
+  - [x] ЛР4 :heavy_check_mark:
+  - [x] ЛР5 :heavy_check_mark:
   
 ## Экономика программной инженерии
   - [x] ЛР1 :heavy_check_mark: 
   - [x] ЛР2
-  - [ ] ЛР3
+  - [x] ЛР3
   - [ ] ЛР4
   - [ ] ЛР5
   - [ ] ЛР6
