@@ -5,6 +5,7 @@
 ## Планирование эксперимента 
   - [x] ЛР1 :heavy_check_mark: 
   - [x] ЛР2 :heavy_check_mark: 
+  - [ ] ЛР3 
 
 ## Цифровая обработка сигналов
   - [x] ЛР1 :heavy_check_mark: 
@@ -13,7 +14,8 @@
   - [x] ЛР4 :heavy_check_mark:
   - [x] ЛР5 :heavy_check_mark:
   - [x] ЛР6 :heavy_check_mark:
-  - [ ] ЛР7 
+  - [x] ЛР7 :heavy_check_mark:
+  - [ ] ЛР8
   
   
 ## Экономика программной инженерии
@@ -21,7 +23,8 @@
   - [x] ЛР2 :heavy_check_mark: 
   - [x] ЛР3 :heavy_check_mark: 
   - [x] ЛР4 :heavy_check_mark: 
-  - [ ] ЛР5
+  - [x] ЛР5 :heavy_check_mark: 
+  - [x] РК1
   - [ ] ЛР6
   - [ ] ЛР7
   - [ ] ЛР8
