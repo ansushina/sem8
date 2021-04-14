@@ -17,6 +17,7 @@
   - [x] ЛР6 :heavy_check_mark:
   - [x] ЛР7 :heavy_check_mark:
   - [x] ЛР8 :heavy_check_mark:
+  - [x] ЛР9 :heavy_check_mark:
   
   
 ## Экономика программной инженерии
