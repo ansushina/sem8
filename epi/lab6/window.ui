@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1285</width>
-    <height>886</height>
+    <width>1297</width>
+    <height>914</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>10</y>
       <width>1271</width>
-      <height>811</height>
+      <height>841</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -36,7 +36,7 @@
         <x>40</x>
         <y>20</y>
         <width>1181</width>
-        <height>728</height>
+        <height>782</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -717,13 +717,6 @@
            </item>
            <item>
             <layout class="QGridLayout" name="gridLayout_2">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_22">
-               <property name="text">
-                <string>Количество строк кода (LOC)</string>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="1">
               <widget class="QSpinBox" name="SizeSpinBox">
                <property name="minimum">
@@ -737,6 +730,36 @@
                </property>
                <property name="value">
                 <number>25000</number>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_22">
+               <property name="text">
+                <string>Количество строк кода (LOC)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSpinBox" name="SalarySpinBox">
+               <property name="minimum">
+                <number>1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000000000</number>
+               </property>
+               <property name="singleStep">
+                <number>1000</number>
+               </property>
+               <property name="value">
+                <number>50000</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_32">
+               <property name="text">
+                <string> Средняя зарплата</string>
                </property>
               </widget>
              </item>
@@ -1043,8 +1066,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1285</width>
-     <height>27</height>
+     <width>1297</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>

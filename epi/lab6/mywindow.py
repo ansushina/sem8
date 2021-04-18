@@ -31,6 +31,7 @@ class MyWindow(QMainWindow):
         eaf['SCED'] = float(self.SCEDComboBox.currentText())
 
         code_size = int(self.SizeSpinBox.value())
+        basic_salary =  int(self.SalarySpinBox.value())
         mode = 'normal'
         if self.NormalRadioButton.isChecked():
             mode = 'normal'
@@ -40,7 +41,7 @@ class MyWindow(QMainWindow):
             mode = 'inbuild'
         print(mode)
 
-        result = simple_expirement(eaf, code_size, mode)
+        result = simple_expirement(eaf, code_size, mode, basic_salary)
         print(result)
 
         self.WorkWithoutLineEdit.setText(str(result['work']))

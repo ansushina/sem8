@@ -1,7 +1,6 @@
 import math
 
 from matplotlib import pyplot
-from prettytable import PrettyTable
 
 standart_eaf = {
     'RELY': 1,  # требуемая надежность 0.75-1.4
@@ -20,7 +19,6 @@ standart_eaf = {
     'TOOL': 1,  # Использование программных инструментов 1.24-0.83
     'SCED': 1,  # Требуемые сроки разработки 1.23-1.1
 }
-
 
 base_code_value = 25  # 000
 
@@ -147,7 +145,7 @@ def cocomo(code_size, eaf_list, variant_func):
     return variant_func(eaf, code_size)
 
 
-def simple_expirement(eaf, code_size, mode):
+def simple_expirement(eaf, code_size, mode, basic_salary):
     code_size /=1000
     result = {}
     if mode == 'normal':
@@ -253,7 +251,13 @@ def simple_expirement(eaf, code_size, mode):
     pyplot.show()
 
     budget_list = []
-    salary = get_salary()
+    salary = {
+        "Programmer": basic_salary,
+        "Analytic": basic_salary * 1.3,
+        "Manager": basic_salary * 1.3,
+        "Tester": basic_salary * 0.7,
+    }
+
     times = all_times_traditional
 
 
@@ -277,155 +281,3 @@ def simple_expirement(eaf, code_size, mode):
         'works': all_works,
         'budget': sum_budget,
     }
-
-#
-# def expirement():
-#     eaf = standart_eaf
-#     eaf['LEXP'] = 0.95  # высокое знание языков програппирования
-#     eaf['MODP'] = 0.82  # самые современные методы
-#     eaf['TOOL'] = 0.91  # высокий уровень ... за счет использования программых...
-#     result = cocomo(code_size=base_code_value,
-#                     eaf_list=eaf,
-#                     variant_func=inbuild_variant)
-#     print(result)
-#
-#     plan_work = result['work'] * 0.08
-#     plan_time = result['time'] * 0.36
-#     plan_workers = math.ceil(plan_work / plan_time)
-#
-#     print(plan_work, plan_time, plan_workers)
-#
-#     design_work = result['work'] * 0.18
-#     design_time = result['time'] * 0.36
-#     design_workers = math.ceil(design_work / design_time)
-#
-#     detail_work = result['work'] * 0.25
-#     detail_time = result['time'] * 0.18
-#     detail_workers = math.ceil(detail_work / detail_time)
-#
-#     coding_work = result['work'] * 0.26
-#     coding_time = result['time'] * 0.18
-#     coding_workers = math.ceil(coding_work / coding_time)
-#
-#     integration_work = result['work'] * 0.31
-#     integration_time = result['time'] * 0.28
-#     integration_workers = math.ceil(integration_work / integration_time)
-#
-#     table = PrettyTable()
-#
-#     table.add_column('Вид деятельности', [
-#         'Планирование и определение требований',
-#         'Проектирование продукта',
-#         'Детальное проектирование',
-#         'Кодирование и тестирование отдельных модулей',
-#         'Интеграция и тестирование',
-#         'ИТОГО'
-#     ])
-#
-#     table.add_column('Работа', [
-#         plan_work,
-#         design_work,
-#         detail_work,
-#         coding_work,
-#         integration_work,
-#         result['work'] + plan_work
-#     ])
-#
-#     table.add_column('Время', [
-#         plan_time,
-#         design_time,
-#         detail_time,
-#         coding_time,
-#         integration_time,
-#         result['time'] + plan_time
-#     ])
-#
-#     table.add_column('Работники', [
-#         plan_workers,
-#         design_workers,
-#         detail_workers,
-#         coding_workers,
-#         integration_workers,
-#         ''
-#     ])
-#     workers = [
-#         plan_workers,
-#         design_workers,
-#         detail_workers,
-#         coding_workers,
-#         integration_workers,
-#     ]
-#
-#     times = [
-#         plan_time,
-#         design_time,
-#         detail_time,
-#         coding_time,
-#         integration_time
-#     ]
-#     print(table)
-#
-#     result['work'] += plan_work
-#
-#     analyz = result['work'] * 0.04
-#     design = result['work'] * 0.12
-#     coding = result['work'] * 0.44
-#     planning = result['work'] * 0.06
-#     verification = result['work'] * 0.14
-#     office = result['work'] * 0.07
-#     quality = result['work'] * 0.07
-#     manuals = result['work'] * 0.06
-#
-#     all_works = [
-#         analyz,
-#         design,
-#         coding,
-#         planning,
-#         verification,
-#         office,
-#         quality,
-#         manuals
-#     ]
-#
-#     sum_work = sum(all_works)
-#
-#     table2 = PrettyTable()
-#     table2.add_column('Тип кода', [
-#         'Анализ требований',
-#         'Проектирование продукта',
-#         'Программирование',
-#         'Планирование тестирования',
-#         'Верификация и аттестация',
-#         'Канцелярия проекта ',
-#         'Управление конфигурацией и обеспечение качества',
-#         'Создание руководств',
-#         'ИТОГО'
-#     ])
-#
-#     table2.add_column('Человеко-месяцы', all_works + [sum_work])
-#
-#     print(table2)
-#
-#     Xdata = []
-#     Ydata = []
-#
-#     summa = 0
-#     for i in range(len(times)):
-#         time = summa
-#         while (time < summa + times[i]):
-#             Xdata.append(time)
-#             Ydata.append(workers[i])
-#             time += 0.01
-#         summa += times[i]
-#
-#     pyplot.title('Работники')
-#     pyplot.grid(True)
-#     pyplot.plot(Xdata, Ydata)
-#     pyplot.xlabel("Месяцы")
-#     pyplot.ylabel("Количество работников")
-#     pyplot.show()
-#
-
-if __name__ == '__main__':
-    graphs()
-    # expirement()
