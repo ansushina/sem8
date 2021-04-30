@@ -6,7 +6,7 @@
   - [x] ЛР1 :heavy_check_mark: 
   - [x] ЛР2 :heavy_check_mark: 
   - [x] ЛР3 :heavy_check_mark: 
-  - [ ] ЛР4
+  - [x] ЛР4 :heavy_check_mark: 
 
 ## Цифровая обработка сигналов
   - [x] ЛР1 :heavy_check_mark: 
@@ -27,13 +27,14 @@
   - [x] ЛР4 :heavy_check_mark: 
   - [x] ЛР5 :heavy_check_mark: 
   - [x] РК1
-  - [ ] ЛР6
-  - [ ] ЛР7
+  - [x] ЛР6 :heavy_check_mark: 
+  - [x] ЛР7 :heavy_check_mark: 
   
 ## Искусственные нейронные сети
-  - [ ] ЛР1
+  - [x] ЛР1 :heavy_check_mark: 
   - [ ] ЛР2
   
 ## Экономика (часть 2)
-  - [ ] РК1
-  - [ ] РК2
+  - [x] РК1
+  - [x] РК2
+  - [x] РК3
